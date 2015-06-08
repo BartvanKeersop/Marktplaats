@@ -1,0 +1,14 @@
+C:\Users\Bart\Documents\GitHub\Marktplaats_Opdracht\Marktplaats\Marktplaats\bin\Marktplaats.dll.config
+C:\Users\Bart\Documents\GitHub\Marktplaats_Opdracht\Marktplaats\Marktplaats\bin\Marktplaats.dll
+C:\Users\Bart\Documents\GitHub\Marktplaats_Opdracht\Marktplaats\Marktplaats\bin\Marktplaats.pdb
+C:\Users\Bart\Documents\GitHub\Marktplaats_Opdracht\Marktplaats\Marktplaats\obj\Debug\Marktplaats.csprojResolveAssemblyReference.cache
+C:\Users\Bart\Documents\GitHub\Marktplaats_Opdracht\Marktplaats\Marktplaats\obj\Debug\Marktplaats.dll
+C:\Users\Bart\Documents\GitHub\Marktplaats_Opdracht\Marktplaats\Marktplaats\obj\Debug\Marktplaats.pdb
+C:\Users\Bart\Documents\GitHub\Marktplaats_Opdracht\Marktplaats\Marktplaats\bin\Oracle.DataAccess.dll
+C:\Users\Bart\Documents\GitHub\Marktplaats\Marktplaats\Marktplaats\bin\Marktplaats.dll.config
+C:\Users\Bart\Documents\GitHub\Marktplaats\Marktplaats\Marktplaats\bin\Marktplaats.dll
+C:\Users\Bart\Documents\GitHub\Marktplaats\Marktplaats\Marktplaats\bin\Marktplaats.pdb
+C:\Users\Bart\Documents\GitHub\Marktplaats\Marktplaats\Marktplaats\bin\Oracle.DataAccess.dll
+C:\Users\Bart\Documents\GitHub\Marktplaats\Marktplaats\Marktplaats\obj\Debug\Marktplaats.csprojResolveAssemblyReference.cache
+C:\Users\Bart\Documents\GitHub\Marktplaats\Marktplaats\Marktplaats\obj\Debug\Marktplaats.dll
+C:\Users\Bart\Documents\GitHub\Marktplaats\Marktplaats\Marktplaats\obj\Debug\Marktplaats.pdb

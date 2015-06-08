@@ -1,0 +1,71 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="MasterPage.master.cs" Inherits="Marktplaats.MasterPage" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>www.marktplaats.nl</title>
+    <link href="StyleSheet.css" rel="stylesheet" />
+</head>
+<body>
+    <form id="form1" runat="server">
+    <div id= "banner">
+        &nbsp;<asp:Image ID="logoMarktplaats" imageurl="Images/Logo.png" runat="server" Height="125px" Width="800px" />
+        <br />
+        <br />
+        <table class="auto-style1">
+            <tr>
+                <td class="auto-style2">
+                    <asp:Label ID="lblEmail" runat="server" Text="Email:"></asp:Label>
+                </td>
+                <td>
+                    <asp:TextBox ID="tbEmail" runat="server"></asp:TextBox>
+                </td>
+            </tr>
+            <tr>
+                <td class="auto-style2">
+                    <asp:Label ID="lblWachtwoord" runat="server" Text="Wachtwoord:"></asp:Label>
+                </td>
+                <td>
+                    <asp:TextBox ID="tbWachtwoord" runat="server" TextMode="Password"></asp:TextBox>
+                </td>
+            </tr>
+        </table>
+        <asp:Button ID="btnInloggen" runat="server" OnClick="btnInloggen_Click" Text="Inloggen" />
+        <br />
+        <asp:Label ID="lblWelkom" runat="server" Text="Welkom,   " Visible="False"></asp:Label>
+       <asp:Label ID="lblNaam" runat="server" Text="Naam" Visible="False"></asp:Label>
+        <br/>
+        <asp:Button ID="btnUitloggen" runat="server" Text="Uitloggen" OnClick="btnUitloggen_Click" Visible="False" />
+        </div>
+
+<div id =" container">
+    <div id = "navigation">
+        <h1>Navigatie</h1>
+                <asp:Repeater ID="Repeater1" runat="server">
+                    <ItemTemplate>
+                        <table>
+                            <tr>
+                                <td>
+                                    <a href="/Categorie/<%# Eval("GroepId") %>">
+                                        <asp:Label runat="server" Text='<%# Eval("Groepnaam") %>'>
+                                        </asp:Label>
+                                    </a>
+                                </td>
+                            </tr>
+                        </table>
+                    </ItemTemplate>
+                </asp:Repeater>
+     </div>
+     <div id ="content">
+            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+        
+            </asp:ContentPlaceHolder>
+     </div>
+</div>
+        <div id = "footer">
+            Dit is de footer.
+        </div>
+    </form>
+</body>
+</html>
