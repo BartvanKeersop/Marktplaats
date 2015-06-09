@@ -6,6 +6,7 @@ using System.Web;
 
 namespace Marktplaats
 {
+    [Serializable]
     public abstract class Persoon
     {
         //Properties

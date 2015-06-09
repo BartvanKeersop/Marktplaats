@@ -18,32 +18,53 @@ namespace Marktplaats
             GetCategories();
             //Checks if the user is logged in.
             CheckIfLoggedIn();
+            BindCategoriesToList();
+        }
+
+        public void BindCategoriesToList()
+        {
+            DataSet output = new DataSet();
+            Administratie administratie = new Administratie();
+            output = administratie.GetData("SELECT GROEPNAAM FROM GROEP");
+
+            ddlCategorie.DataSource = output;
+            ddlCategorie.DataTextField = "GROEPNAAM";
+            ddlCategorie.DataValueField = "GROEPNAAM";
+            ddlCategorie.DataBind();
+            ddlCategorie.Items.Insert(0, "Alle");
+            ddlCategorie.SelectedIndex = 0;
         }
 
         /// <summary>
-        /// This method checks if there is a Gebruiker stored in the viewstate.
+        /// This method checks if there is a Gebruiker stored in the session.
         /// If this is the case the user is logged in and gets the option to log out.
         /// If not the case the user can log in if he or she wants.
         /// </summary>
         public void CheckIfLoggedIn()
         {
-            //Checks if there is a user stored in viewstate.
-            if (ViewState["gebruiker"] != null)
+            //Checks if there is a user stored in session.
+            if (Session["gebruiker"] != null)
             {
                 //Change the login functions to logout functions.
-                gebruiker = (Gebruiker)ViewState["gebruiker"];
+                gebruiker = (Gebruiker)Session["gebruiker"];
 
                 lblEmail.Visible = false;
                 lblWachtwoord.Visible = false;
                 tbEmail.Visible = false;
                 tbWachtwoord.Visible = false;
-
-                lblWelkom.Text = "Welkom, ";
                 lblWelkom.Visible = true;
-                lblNaam.Text = gebruiker.Naam;
-                lblNaam.Visible = true;
+                hpNaam.Visible = true;
 
                 btnUitloggen.Visible = true;
+                btnInloggen.Visible = false;
+                hpNaam.Text = gebruiker.Naam;
+                hpNaam.NavigateUrl = "Instellingen/" + gebruiker.GebruikerId;
+
+                //Shows the control to the adminpanel when user is an admin.
+                if (gebruiker.AdminRechten == true)
+                {
+                    hpAdminpaneel.Visible = true;
+                }
             }
             else
             {
@@ -54,8 +75,8 @@ namespace Marktplaats
                 tbWachtwoord.Visible = true;
 
                 lblWelkom.Visible = false;
-                lblNaam.Visible = false;
 
+                hpNaam.Visible = false;
                 btnUitloggen.Visible = false;
             }
         }
@@ -94,7 +115,7 @@ namespace Marktplaats
         /// <summary>
         /// This method checks if the username and password exist and match within the oracle database.
         /// When it does, it gets the email, username and rights from the database and creates a user.
-        /// The user is then stored within the viewstate.
+        /// The user is then stored within the session.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -106,7 +127,7 @@ namespace Marktplaats
              //Gets information from the database.
              DataSet output = new DataSet();
              Administratie administratie = new Administratie();
-             output = administratie.GetData("SELECT EMAIL, NAAM, ADMINRECHTEN FROM PERSOON WHERE EMAIL = " + "'" + email + "'" + " AND WACHTWOORD = " +
+             output = administratie.GetData("SELECT PERSOONID, EMAIL, NAAM, ADMINRECHTEN FROM PERSOON WHERE EMAIL = " + "'" + email + "'" + " AND WACHTWOORD = " +
                                   "'" + password + "'");
 
              //Checks if data is returned.
@@ -119,10 +140,11 @@ namespace Marktplaats
              }
              else
              {
-                 //Create user and store in viewstate.
-                 string mail = output.Tables[0].Rows[0].ToString();
-                 string naam = output.Tables[1].Rows[1].ToString();
-                 int adminRechtenInt = Convert.ToInt32(output.Tables[2].Rows[2].ToString());
+                 //Create user and store in session.
+                 int persoonid = Convert.ToInt32(output.Tables[0].Rows[0]["PERSOONID"].ToString());
+                 string mail = output.Tables[0].Rows[0]["EMAIL"].ToString();
+                 string naam = output.Tables[0].Rows[0]["NAAM"].ToString();
+                 int adminRechtenInt = Convert.ToInt32(output.Tables[0].Rows[0]["ADMINRECHTEN"].ToString());
                  bool adminRechten = false;
 
                  if (adminRechtenInt == 1)
@@ -131,27 +153,23 @@ namespace Marktplaats
                  }
 
                  //Create new user.
-                 Gebruiker gebruiker = new Gebruiker(mail, naam, adminRechten);
-                 ViewState["gebruiker"] = gebruiker;
+                 Gebruiker gebruiker = new Gebruiker(mail, naam, adminRechten, persoonid);
+                 Session["gebruiker"] = gebruiker;
 
-                 //Refresh the page.
-                 Server.TransferRequest(Request.Url.AbsolutePath, false);
+                 CheckIfLoggedIn();
              }
 
          }
 
         /// <summary>
-        /// Logsout the user by setting the gebruiker viewstate to NULL, and refreshes the page.
+        /// Logsout the user by setting the gebruiker session to NULL, and refreshes the page.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
          protected void btnUitloggen_Click(object sender, EventArgs e)
         {
-            //Set viewstate to null.
-            ViewState["gebruiker"] = null;
-
-             //Refresh the page.
-            Server.TransferRequest(Request.Url.AbsolutePath, false);
+            //Set session to null.
+            Session["gebruiker"] = null;
         }
     }
 }

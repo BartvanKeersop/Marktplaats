@@ -16,6 +16,8 @@ namespace Marktplaats
         {
             routes.MapPageRoute("categorie", "Categorie/{id}", "~/categorie.aspx");
             routes.MapPageRoute("advertenties", "Advertenties/{id}", "~/advertenties.aspx");
+            routes.MapPageRoute("instellingen", "Instellingen/{id}", "~/instellingen.aspx");
+            routes.MapPageRoute("advertentie", "Advertentie/{id}", "~/advertentie.aspx");
         }
 
         protected void Application_Start(object sender, EventArgs e)

@@ -6,7 +6,7 @@
                         <table>
                             <tr>
                                 <td>
-                                    <a href="/Categorie/<%# Eval("GroepId") %>">
+                                    <a href="/Advertenties/<%# Eval("GroepId") %>">
                                         <asp:Label runat="server" Text='<%# Eval("Groepnaam") %>'>
                                         </asp:Label>
                                     </a>

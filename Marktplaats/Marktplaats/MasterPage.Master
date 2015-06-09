@@ -6,9 +6,22 @@
 <head runat="server">
     <title>www.marktplaats.nl</title>
     <link href="StyleSheet.css" rel="stylesheet" />
+    <style type="text/css">
+        .auto-style4 {
+            width: 206px;
+        }
+        .auto-style5 {
+            width: 110px;
+        }
+    </style>
+    <script src="Javascript.js"></script>
 </head>
 <body>
+    <div id = "container_all">
+        
     <form id="form1" runat="server">
+    
+    <!-- banner div-->
     <div id= "banner">
         &nbsp;<asp:Image ID="logoMarktplaats" imageurl="Images/Logo.png" runat="server" Height="125px" Width="800px" />
         <br />
@@ -31,17 +44,20 @@
                 </td>
             </tr>
         </table>
+
         <asp:Button ID="btnInloggen" runat="server" OnClick="btnInloggen_Click" Text="Inloggen" />
         <br />
         <asp:Label ID="lblWelkom" runat="server" Text="Welkom,   " Visible="False"></asp:Label>
-       <asp:Label ID="lblNaam" runat="server" Text="Naam" Visible="False"></asp:Label>
+        <asp:HyperLink ID="hpNaam" runat="server" Visible="False">Naam</asp:HyperLink>
+        <br/>
+        <asp:HyperLink ID="hpAdminpaneel" runat="server" NavigateUrl="/Adminpaneel" Visible="False">Adminpaneel</asp:HyperLink>
         <br/>
         <asp:Button ID="btnUitloggen" runat="server" Text="Uitloggen" OnClick="btnUitloggen_Click" Visible="False" />
-        </div>
+      </div>
 
-<div id =" container">
+    <!-- navigation div-->
     <div id = "navigation">
-        <h1>Navigatie</h1>
+        <h3>Navigatie</h3>
                 <asp:Repeater ID="Repeater1" runat="server">
                     <ItemTemplate>
                         <table>
@@ -56,16 +72,53 @@
                         </table>
                     </ItemTemplate>
                 </asp:Repeater>
+        
      </div>
-     <div id ="content">
-            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+    <!--end of navigation div-->
+    
+    <!--content div-->
+    <div id = "content">
+          <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
         
             </asp:ContentPlaceHolder>
-     </div>
-</div>
-        <div id = "footer">
-            Dit is de footer.
-        </div>
+    <!-- end of content div-->
+    </div>
+
+    <!--column div-->
+    <div id = "column">
+        <asp:HyperLink ID="hpAdvertentiePlaatsen" runat="server">Advertentie Plaatsen</asp:HyperLink>
+        <table class="auto-style1">
+            <tr>
+                <td class="auto-style4">Zoek op:</td>
+                <td class="auto-style5">
+                    &nbsp;<asp:TextBox ID="TextBox2" runat="server" Width="65px"></asp:TextBox>
+                </td>
+            </tr>
+            <tr>
+                <td class="auto-style4">Categorie:</td>
+                <td class="auto-style5">
+                    <asp:DropDownList ID="ddlCategorie" runat="server">
+                    </asp:DropDownList>
+                </td>
+            </tr>
+            <tr>
+                <td class="auto-style4">Maximale Prijs:</td>
+                <td class="auto-style5">
+                    <asp:TextBox ID="tbPrijs" runat="server" Width="70px" onkeypress="return isNumberKey(event)"></asp:TextBox>
+                </td>
+            </tr>
+            <tr>
+                <td class="auto-style4">&nbsp;</td>
+                <td class="auto-style5">&nbsp;</td>
+            </tr>
+        </table>
+    </div>
+    <!-- end of column div-->
+    
+    <div id = "footer">
+        de footer.
+    </div>
     </form>
+</div>
 </body>
 </html>

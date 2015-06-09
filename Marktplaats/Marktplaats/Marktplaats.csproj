@@ -61,8 +61,12 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Adminpaneel.aspx" />
+    <Content Include="Advertentie.aspx" />
     <Content Include="Advertenties.aspx" />
     <Content Include="Index.aspx" />
+    <Content Include="Instellingen.aspx" />
+    <Content Include="Javascript.js" />
     <Content Include="MasterPage.Master" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -80,6 +84,20 @@
   <ItemGroup>
     <Compile Include="Aanbieder.cs" />
     <Compile Include="Administratie.cs" />
+    <Compile Include="Adminpaneel.aspx.cs">
+      <DependentUpon>Adminpaneel.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Adminpaneel.aspx.designer.cs">
+      <DependentUpon>Adminpaneel.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Advertentie.aspx.cs">
+      <DependentUpon>Advertentie.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Advertentie.aspx.designer.cs">
+      <DependentUpon>Advertentie.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Advertentie.cs" />
     <Compile Include="Advertenties.aspx.cs">
       <DependentUpon>Advertenties.aspx</DependentUpon>
@@ -102,6 +120,13 @@
     </Compile>
     <Compile Include="Index.aspx.designer.cs">
       <DependentUpon>Index.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Instellingen.aspx.cs">
+      <DependentUpon>Instellingen.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Instellingen.aspx.designer.cs">
+      <DependentUpon>Instellingen.aspx</DependentUpon>
     </Compile>
     <Compile Include="MasterPage.Master.cs">
       <DependentUpon>MasterPage.Master</DependentUpon>
