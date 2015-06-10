@@ -13,7 +13,21 @@ namespace Marktplaats
 {
     public class Database
     {
+        #region Fields
         private OracleConnection connection = new OracleConnection();
+        //Lazy instance of database, code example from cas eliens.
+        private static readonly Lazy<Database> instance = new Lazy<Database>(() => new Database());
+        #endregion
+
+        #region Properties
+        public static Database Instance { get { return instance.Value; } }
+        #endregion
+
+        private Database()
+        {
+            
+        }
+
 
         private void OpenConnection()
         {
@@ -45,6 +59,23 @@ namespace Marktplaats
                 DataSet dataSet = new DataSet();
                 o_adapter.Fill(dataSet);
                 return dataSet;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                CloseConnection();
+            }
+        }
+
+        public void InsertData(string query)
+        {
+            try
+            {
+                OpenConnection();
+                OracleDataAdapter o_adapter = new OracleDataAdapter(query, connection);
             }
             catch (Exception ex)
             {

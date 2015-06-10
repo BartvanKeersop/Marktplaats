@@ -48,7 +48,8 @@
     padding: 20px 20px 15px 20px;
 }
 
-#footer {
+#footer 
+{
     background-color: #FFF8D7;
     border: 1px solid #B1C4DF;
     height: 100px;
@@ -56,6 +57,11 @@
     width: 100%;
     margin-top: 20px;
     padding: 20px 20px 15px 20px;
+}
+
+table.lines td {
+    border: 1px solid black;
+    background-color: #FFE87A;
 }
 
 .highlight

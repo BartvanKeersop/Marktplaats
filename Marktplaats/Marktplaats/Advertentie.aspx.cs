@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -18,10 +19,15 @@ namespace Marktplaats
             Rout();
         }
 
+        private int hoogsteBod;
+        private int minimaalBod;
+        private int advertentieId;
+
         public void Rout()
         {
             int id = Convert.ToInt32(Page.RouteData.Values["id"]);
             GetAdvertentie(id);
+            advertentieId = id;
         }
 
         public void GetAdvertentie(int id)
@@ -37,21 +43,31 @@ namespace Marktplaats
                                                " FROM ADVERTENTIE" +
                                                " WHERE ADVERTENTIEID = " + id);
 
+                minimaalBod = Convert.ToInt32(output.Tables[0].Rows[0]["PRIJS"]);
+
                 output2 = administratie.GetData("SELECT LEVEREN, OPHALEN, BIEDPRIJS"+
                                                 " FROM ADVERTENTIE" +
                                                 " WHERE ADVERTENTIEID = " + id);
 
-                output3 = administratie.GetData("SELECT p.Naam, p.Email, b.Bedrag, b.Datum" +
-                                                " FROM PERSOON p" +
-                                                " JOIN Bod b ON p.EMAIL = b.EMAIL" +
-                                                " WHERE b.AdvertentieId =" + id);
+                int ophalen = Convert.ToInt32(output2.Tables[0].Rows[0]["OPHALEN"]);
+                int leveren = Convert.ToInt32(output2.Tables[0].Rows[0]["LEVEREN"]);
+                int biedPrijs = Convert.ToInt32(output2.Tables[0].Rows[0]["BIEDPRIJS"]);
+
+                output3 =
+                    administratie.GetData(
+                        "SELECT p.Naam AS NAAM, p.Email AS EMAIL, b.Bedrag AS BEDRAG, b.Datum AS DATUM" +
+                        " FROM PERSOON p" +
+                        " JOIN Bod b ON p.EMAIL = b.EMAIL" +
+                        " WHERE b.AdvertentieId =" + id +
+                        " ORDER BY b.Bedrag DESC");
 
                 RepeaterAdvertentie.DataSource = output;
                 RepeaterAdvertentie.DataBind();
 
-                int ophalen = Convert.ToInt32(output2.Tables[0].Rows[0]["OPHALEN"]);
-                int leveren = Convert.ToInt32(output2.Tables[0].Rows[0]["LEVEREN"]);
-                int biedPrijs = Convert.ToInt32(output2.Tables[0].Rows[0]["BIEDPRIJS"]);
+                RepeaterBod.DataSource = output3;
+                RepeaterBod.DataBind();
+
+                hoogsteBod = Convert.ToInt32(output3.Tables[0].Rows[0]["BEDRAG"]);
 
                 if (ophalen == 1 && leveren == 1)
                 {
@@ -69,6 +85,7 @@ namespace Marktplaats
                 if (biedPrijs == 1)
                 {
                     lblPrijs.Text = "Bieden";
+
                 }
                 else
                 {
@@ -79,6 +96,36 @@ namespace Marktplaats
             catch (Exception ex)
             {
 
+            }
+        }
+
+        protected void btnBieden_Click(object sender, EventArgs e)
+        {
+            if (gebruiker == null)
+            {
+                lblMessageBod.Text = "Log in om een bod te plaatsen";
+                lblMessageBod.CssClass = "highlight";
+            }
+            else
+            {
+                int bod = Convert.ToInt32(tbBieden.Text);
+
+                if (bod < minimaalBod || bod < hoogsteBod)
+                {
+                    lblMessageBod.Text = "Bod is te laag!";
+                    lblMessageBod.CssClass = "highlight";
+                }
+
+                else
+                {
+                    Administratie administratie = new Administratie();
+                    DateTime date = DateTime.Now;
+                    string datum = Convert.ToString(date, CultureInfo.InvariantCulture);
+
+                    administratie.InsertData("INSERT INTO BOD (NULL, ADVERTENTIEID, EMAIL, BEDRAG, DATUM) VALUES (" +
+                                             "NULL" + "," + advertentieId + ", " + gebruiker.Email + ", " + bod + ", " +
+                                             "'" + datum + "'" + ")");
+                }
             }
         }
     }

@@ -23,9 +23,14 @@ namespace Marktplaats
 
         public DataSet GetData(string query)
         {
-            Database database = new Database();
-            DataSet output = new DataSet();
-            return output = database.GetData(query);
+            Database database = Database.Instance;
+            return database.GetData(query);
+        }
+
+        public void InsertData(string query)
+        {
+            Database database = Database.Instance;
+            database.InsertData(query);
         }
     }
 }
