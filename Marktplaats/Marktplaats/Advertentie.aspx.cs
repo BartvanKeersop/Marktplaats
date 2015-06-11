@@ -17,11 +17,17 @@ namespace Marktplaats
         {
             gebruiker = (Gebruiker)Session["gebruiker"];
             Rout();
+            ShowEditAndDeleteButtons();
         }
 
         private int hoogsteBod;
         private int minimaalBod;
         private int advertentieId;
+
+        public void ShowEditAndDeleteButtons()
+        {
+            //Get advertentiedata from tabel and compare to gebruiker
+        }
 
         public void Rout()
         {
@@ -39,9 +45,12 @@ namespace Marktplaats
                 DataSet output3 = new DataSet();
 
                 Administratie administratie = new Administratie();
-                output = administratie.GetData("SELECT ADVERTENTIEID, PRIJS, EMAIL, AFMETING, GEWICHT, ZENDPRIJS, TITEL, CONTACTNAAM, CONTACTPOSTCODE, CONTACTTELEFOON, AANTALBEZOCHT, AANTALFAVORIET, PLAATSINGSDATUM, CONDITIE, MERK, BESCHRIJVING, FOTO, WEBSITE" +
+                output = administratie.GetData("SELECT ADVERTENTIEID, PRIJS, PERSOONID, AFMETING, GEWICHT, ZENDPRIJS, TITEL, CONTACTNAAM, CONTACTPOSTCODE, CONTACTTELEFOON, AANTALBEZOCHT, AANTALFAVORIET, PLAATSINGSDATUM, CONDITIE, MERK, BESCHRIJVING, FOTO, WEBSITE" +
                                                " FROM ADVERTENTIE" +
                                                " WHERE ADVERTENTIEID = " + id);
+
+                int advertentieIdAdv = Convert.ToInt32(output.Tables[0].Rows[0]["ADVERTENTIEID"]);
+                string titelAdv = Convert.ToString(output.Tables[0].Rows[0]["TITEL"]);
 
                 minimaalBod = Convert.ToInt32(output.Tables[0].Rows[0]["PRIJS"]);
 
@@ -57,7 +66,7 @@ namespace Marktplaats
                     administratie.GetData(
                         "SELECT p.Naam AS NAAM, p.Email AS EMAIL, b.Bedrag AS BEDRAG, b.Datum AS DATUM" +
                         " FROM PERSOON p" +
-                        " JOIN Bod b ON p.EMAIL = b.EMAIL" +
+                        " JOIN Bod b ON p.PERSOONID = b.PERSOONID" +
                         " WHERE b.AdvertentieId =" + id +
                         " ORDER BY b.Bedrag DESC");
 
@@ -72,10 +81,12 @@ namespace Marktplaats
                 if (ophalen == 1 && leveren == 1)
                 {
                     lblType.Text = "Beide";
+
                 }
                 else if (ophalen == 1 && leveren == 0)
                 {
                     lblType.Text = "Ophalen";
+
                 }
                 else if (ophalen == 0 && leveren == 1)
                 {
@@ -85,17 +96,19 @@ namespace Marktplaats
                 if (biedPrijs == 1)
                 {
                     lblPrijs.Text = "Bieden";
-
                 }
                 else
                 {
                     lblPrijs.Text = "Vaste Prijs";
                 }
 
+                Advertentie advertentie = new Advertentie(advertentieIdAdv, titelAdv);
+                gebruiker.BekekenAdvertenties.Add(advertentie);
+
             }
             catch (Exception ex)
             {
-
+                
             }
         }
 

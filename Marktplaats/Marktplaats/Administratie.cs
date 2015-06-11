@@ -8,8 +8,12 @@ namespace Marktplaats
 {
     public class Administratie
     {
+        //Fields
+        private static readonly Lazy<Administratie> instance = new Lazy<Administratie>(() => new Administratie());
+
         //Properties
         public Gebruiker User { get; set; }
+        public static Administratie Instance { get { return instance.Value; } }
 
         //Constructor
         public Administratie()

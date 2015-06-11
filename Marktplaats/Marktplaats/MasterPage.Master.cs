@@ -16,8 +16,9 @@ namespace Marktplaats
         {
             //Updates navigation.
             GetCategories();
-            //Checks if the user is logged in.
+
             CheckIfLoggedIn();
+
             BindCategoriesToList();
         }
 
@@ -25,11 +26,11 @@ namespace Marktplaats
         {
             DataSet output = new DataSet();
             Administratie administratie = new Administratie();
-            output = administratie.GetData("SELECT GROEPNAAM FROM GROEP");
+            output = administratie.GetData("SELECT GROEPNAAM, GROEPID FROM GROEP");
 
             ddlCategorie.DataSource = output;
             ddlCategorie.DataTextField = "GROEPNAAM";
-            ddlCategorie.DataValueField = "GROEPNAAM";
+            ddlCategorie.DataValueField = "GROEPID";
             ddlCategorie.DataBind();
             ddlCategorie.Items.Insert(0, "Alle");
             ddlCategorie.SelectedIndex = 0;
@@ -59,9 +60,10 @@ namespace Marktplaats
                 btnInloggen.Visible = false;
                 hpNaam.Text = gebruiker.Naam;
                 hpNaam.NavigateUrl = "Instellingen/" + gebruiker.GebruikerId;
+                LoadAanbevolenAdvertenties();
 
                 //Shows the control to the adminpanel when user is an admin.
-                if (gebruiker.AdminRechten == true)
+                if (gebruiker.AdminRechten)
                 {
                     hpAdminpaneel.Visible = true;
                 }
@@ -78,6 +80,93 @@ namespace Marktplaats
 
                 hpNaam.Visible = false;
                 btnUitloggen.Visible = false;
+                btnInloggen.Visible = true;
+            }
+        }
+
+        public void LoadAanbevolenAdvertenties()
+        {
+            gebruiker.GenereerAanbevolenAdvertenties(gebruiker);
+
+            int caseSwitch = gebruiker.AangeradenAdvertenties.Count;
+            switch (caseSwitch)
+            {
+                case 0:
+                    FotoAdv1.Visible = false;
+                    TitelAdv1.Visible = false;
+                    NaamAdv1.Visible = false;
+
+                    FotoAdv2.Visible = false;
+                    TitelAdv2.Visible = false;
+                    NaamAdv2.Visible = false;
+
+                    FotoAdv3.Visible = false;
+                    TitelAdv3.Visible = false;
+                    NaamAdv3.Visible = false;
+                    break;
+                case 1:
+                    FotoAdv1.ImageUrl = gebruiker.AangeradenAdvertenties[0].Foto;
+                    TitelAdv1.Text = gebruiker.AangeradenAdvertenties[0].Titel;
+                    TitelAdv1.ImageUrl = "Advertentie/" + gebruiker.AangeradenAdvertenties[0].Advertentienummer;
+                    NaamAdv1.Text = gebruiker.AangeradenAdvertenties[0].Aanbiederpersoon.Naam;
+                    FotoAdv1.Visible = true;
+                    TitelAdv1.Visible = true;
+                    NaamAdv1.Visible = true;
+
+                    FotoAdv2.Visible = false;
+                    TitelAdv2.Visible = false;
+                    NaamAdv2.Visible = false;
+
+                    FotoAdv3.Visible = false;
+                    TitelAdv3.Visible = false;
+                    NaamAdv3.Visible = false;
+                    break;
+                case 2:
+                    FotoAdv1.ImageUrl = gebruiker.AangeradenAdvertenties[0].Foto;
+                    TitelAdv1.Text = gebruiker.AangeradenAdvertenties[0].Titel;
+                    TitelAdv1.ImageUrl = "Advertentie/" + gebruiker.AangeradenAdvertenties[0].Advertentienummer;
+                    NaamAdv1.Text = gebruiker.AangeradenAdvertenties[0].Aanbiederpersoon.Naam;
+                    FotoAdv1.Visible = true;
+                    TitelAdv1.Visible = true;
+                    NaamAdv1.Visible = true;
+
+                    FotoAdv2.ImageUrl = gebruiker.AangeradenAdvertenties[1].Foto;
+                    TitelAdv2.Text = gebruiker.AangeradenAdvertenties[1].Titel;
+                    TitelAdv2.ImageUrl = "Advertentie/" + gebruiker.AangeradenAdvertenties[1].Advertentienummer;
+                    NaamAdv2.Text = gebruiker.AangeradenAdvertenties[1].Aanbiederpersoon.Naam;
+                    FotoAdv2.Visible = true;
+                    TitelAdv2.Visible = true;
+                    NaamAdv2.Visible = true;
+
+                    FotoAdv3.Visible = false;
+                    TitelAdv3.Visible = false;
+                    NaamAdv3.Visible = false;
+                    break;
+                case 3:
+                    FotoAdv1.ImageUrl = gebruiker.AangeradenAdvertenties[0].Foto;
+                    TitelAdv1.Text = gebruiker.AangeradenAdvertenties[0].Titel;
+                    TitelAdv1.ImageUrl = "Advertentie/" + gebruiker.AangeradenAdvertenties[0].Advertentienummer;
+                    NaamAdv1.Text = gebruiker.AangeradenAdvertenties[0].Aanbiederpersoon.Naam;
+                    FotoAdv1.Visible = true;
+                    TitelAdv1.Visible = true;
+                    NaamAdv1.Visible = true;
+
+                    FotoAdv2.ImageUrl = gebruiker.AangeradenAdvertenties[1].Foto;
+                    TitelAdv2.Text = gebruiker.AangeradenAdvertenties[1].Titel;
+                    TitelAdv2.ImageUrl = "Advertentie/" + gebruiker.AangeradenAdvertenties[1].Advertentienummer;
+                    NaamAdv2.Text = gebruiker.AangeradenAdvertenties[1].Aanbiederpersoon.Naam;
+                    FotoAdv2.Visible = true;
+                    TitelAdv2.Visible = true;
+                    NaamAdv2.Visible = true;
+
+                    FotoAdv3.ImageUrl = gebruiker.AangeradenAdvertenties[2].Foto;
+                    TitelAdv3.Text = gebruiker.AangeradenAdvertenties[2].Titel;
+                    TitelAdv3.ImageUrl = "Advertentie/" + gebruiker.AangeradenAdvertenties[2].Advertentienummer;
+                    NaamAdv3.Text = gebruiker.AangeradenAdvertenties[2].Aanbiederpersoon.Naam;
+                    FotoAdv3.Visible = true;
+                    TitelAdv3.Visible = true;
+                    NaamAdv3.Visible = true;
+                    break;
             }
         }
 
@@ -142,7 +231,6 @@ namespace Marktplaats
              {
                  //Create user and store in session.
                  int persoonid = Convert.ToInt32(output.Tables[0].Rows[0]["PERSOONID"].ToString());
-                 string mail = output.Tables[0].Rows[0]["EMAIL"].ToString();
                  string naam = output.Tables[0].Rows[0]["NAAM"].ToString();
                  int adminRechtenInt = Convert.ToInt32(output.Tables[0].Rows[0]["ADMINRECHTEN"].ToString());
                  bool adminRechten = false;
@@ -153,7 +241,7 @@ namespace Marktplaats
                  }
 
                  //Create new user.
-                 Gebruiker gebruiker = new Gebruiker(mail, naam, adminRechten, persoonid);
+                 Gebruiker gebruiker = new Gebruiker(persoonid, naam, adminRechten);
                  Session["gebruiker"] = gebruiker;
 
                  CheckIfLoggedIn();
@@ -170,6 +258,7 @@ namespace Marktplaats
         {
             //Set session to null.
             Session["gebruiker"] = null;
+            CheckIfLoggedIn();
         }
     }
 }

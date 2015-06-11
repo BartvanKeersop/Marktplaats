@@ -15,22 +15,80 @@ namespace Marktplaats
         public string Telefoonnummer { get; set; }
         public DateTime InschrijfDatum { get; set; }
         public bool AdminRechten { get; set; }
+        public List<Advertentie> BekekenAdvertenties { get; set; }
+        public List<Advertentie> AangeradenAdvertenties { get; set; }
 
         //Constructor
-        public Gebruiker(string email, string naam, bool adminrechten, int gebruikerId) : base(email, naam)
+        public Gebruiker(int id, string naam, bool adminrechten) : base(id, naam)
         {
-            Email = email;
+            GebruikerId = id;
             Naam = naam;
             AdminRechten = adminrechten;
-            GebruikerId = gebruikerId;
+            AangeradenAdvertenties = new List<Advertentie>();
+            BekekenAdvertenties = new List<Advertentie>();
         }
 
-        public Gebruiker(string email, string naam, string telefoonnummer, DateTime inschrijfdatum) : base(email, naam, telefoonnummer, inschrijfdatum)
+        public void GenereerAanbevolenAdvertenties(Gebruiker gebruiker)
         {
-            Email = email;
-            Naam = naam;
-            Telefoonnummer = telefoonnummer;
-            InschrijfDatum = inschrijfdatum;
+            Database database = Database.Instance;
+            bool advertentiebestaatal = true;
+
+            gebruiker.AangeradenAdvertenties.Clear();
+
+            if (gebruiker.BekekenAdvertenties.Count > 0)
+            {
+                int counter = gebruiker.BekekenAdvertenties.Count;
+
+                if (counter > 3)
+                {
+                    counter = 3;
+                }
+                
+
+                for (int i=0; i < counter; i++)
+                {
+                    int groepId =
+                        Convert.ToInt32(database.GetGroupIdWithAdvertentieId(gebruiker.BekekenAdvertenties[i].Advertentienummer)[0]["GROEPID"]);
+
+                    while (advertentiebestaatal)
+                    {
+                        List<Dictionary<string, object>> data = database.GetAanbevolenAdvDataRandom(groepId);
+
+                        string titel = Convert.ToString(data[0]["TITEL"]);
+                        int advertentieId = Convert.ToInt32(data[0]["ADVERTENTIEID"]);
+                        string naam = Convert.ToString(data[0]["NAAM"]);
+                        int persoonId = Convert.ToInt32(data[0]["PERSOONID"]);
+                        string foto = Convert.ToString(data[0]["FOTO"]);
+
+                        advertentiebestaatal = CheckBestaatAl(advertentieId, gebruiker);
+
+                        if (advertentiebestaatal == false)
+                        {
+                            Aanbieder aanbieder = new Aanbieder(persoonId, naam);
+                            Advertentie advertentie = new Advertentie(advertentieId, titel, aanbieder, foto);
+                            gebruiker.AangeradenAdvertenties.Add(advertentie);
+                        }
+                    }
+                }
+            }
+        }
+
+        public bool CheckBestaatAl(int advertentieId, Gebruiker gebruiker)
+        {
+            foreach (Advertentie adver in gebruiker.AangeradenAdvertenties)
+            {
+                if (adver.Advertentienummer == advertentieId)
+                {
+                    return true;
+                }
+            }
+                return false;
+        }
+
+        public void VoegAdvertentieAanBekekenLijstToe(Advertentie advertentie)
+        {
+            BekekenAdvertenties.RemoveAt(0);
+            BekekenAdvertenties.Add(advertentie);
         }
     }
 }

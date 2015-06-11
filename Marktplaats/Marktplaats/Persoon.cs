@@ -10,21 +10,22 @@ namespace Marktplaats
     public abstract class Persoon
     {
         //Properties
+        public int Id { get; set; }
         public string Email { get; set; }
         public string Naam { get; set; }
         public string Telefoonnummer { get; set; }
         public DateTime InschrijfDatum { get; set; }
 
         //Constructor
-        protected Persoon(string email, string naam)
+        protected Persoon(int id, string naam)
         {
-            Email = email;
+            Id = id;
             Naam = naam;
         }
 
-        protected Persoon(string email, string naam, string telefoonnummer, DateTime inschrijfdatum)
+        protected Persoon(int id, string naam, string telefoonnummer, DateTime inschrijfdatum)
         {
-            Email = email;
+            Id = id;
             Naam = naam;
             Telefoonnummer = telefoonnummer;
             InschrijfDatum = inschrijfdatum;

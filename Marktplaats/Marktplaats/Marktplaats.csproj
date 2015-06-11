@@ -63,6 +63,7 @@
   <ItemGroup>
     <Content Include="Adminpaneel.aspx" />
     <Content Include="Advertentie.aspx" />
+    <Content Include="AdvertentieAanmaken.aspx" />
     <Content Include="Advertenties.aspx" />
     <Content Include="Index.aspx" />
     <Content Include="Instellingen.aspx" />
@@ -99,6 +100,13 @@
       <DependentUpon>Advertentie.aspx</DependentUpon>
     </Compile>
     <Compile Include="Advertentie.cs" />
+    <Compile Include="AdvertentieAanmaken.aspx.cs">
+      <DependentUpon>AdvertentieAanmaken.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AdvertentieAanmaken.aspx.designer.cs">
+      <DependentUpon>AdvertentieAanmaken.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Advertenties.aspx.cs">
       <DependentUpon>Advertenties.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

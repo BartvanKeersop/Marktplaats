@@ -9,21 +9,23 @@ namespace Marktplaats
     {
         
         //Properties
+        public int Id { get; set; }
         public string Email { get; set; }
         public string Naam { get; set; }
         public string Telefoonnummer { get; set; }
         public DateTime InschrijfDatum { get; set; }
 
+
         //Constructor
-        public Aanbieder(string email, string naam) : base(email, naam)
+        public Aanbieder(int id, string naam) : base(id, naam)
         {
-            Email = email;
+            Id = id;
             Naam = naam;
         }
 
-        public Aanbieder(string email, string naam, string telefoonnummer, DateTime inschrijfdatum) :base(email, naam, telefoonnummer, inschrijfdatum)
+        public Aanbieder(int id, string naam, string telefoonnummer, DateTime inschrijfdatum) :base(id, naam, telefoonnummer, inschrijfdatum)
         {
-            Email = email;
+            Id = id;
             Naam = naam;
             Telefoonnummer = telefoonnummer;
             InschrijfDatum = inschrijfdatum;

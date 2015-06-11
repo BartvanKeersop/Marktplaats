@@ -16,7 +16,6 @@ namespace Marktplaats
         }
         public void Rout()
         {
-            string categorieUrl = (string)Page.RouteData.Values["Advertenties"];
             string id = (string)Page.RouteData.Values["id"];
 
             GetAdvertenties(id);
@@ -28,9 +27,9 @@ namespace Marktplaats
             {
                 DataSet output = new DataSet();
                 Administratie administratie = new Administratie();
-                output = administratie.GetData("SELECT p.Email AS EMAIL, p.Naam AS NAAM, a.Titel AS TITEL, a.AdvertentieId AS Id " +
+                output = administratie.GetData("SELECT p.PERSOONID AS PERSOONID, p.Naam AS NAAM, a.Titel AS TITEL, a.AdvertentieId AS Id " +
                                                "FROM Persoon p " +
-                                               "JOIN Advertentie a ON p.EMAIL = a.EMAIL " +
+                                               "JOIN Advertentie a ON p.PERSOONID = a.PERSOONID " +
                                                "WHERE GROEPID = " + "'" + id + "'");
 
                 RepeaterAdvertenties.DataSource = output;

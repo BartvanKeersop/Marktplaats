@@ -7,12 +7,6 @@
     <title>www.marktplaats.nl</title>
     <link href="StyleSheet.css" rel="stylesheet" />
     <style type="text/css">
-        .auto-style4 {
-            width: 206px;
-        }
-        .auto-style5 {
-            width: 110px;
-        }
     </style>
     <script src="Javascript.js"></script>
 </head>
@@ -28,7 +22,7 @@
         <br />
         <table class="auto-style1">
             <tr>
-                <td class="auto-style2">
+                <td class="lines">
                     <asp:Label ID="lblEmail" runat="server" Text="Email:"></asp:Label>
                 </td>
                 <td>
@@ -50,7 +44,7 @@
         <asp:Label ID="lblWelkom" runat="server" Text="Welkom,   " Visible="False"></asp:Label>
         <asp:HyperLink ID="hpNaam" runat="server" Visible="False">Naam</asp:HyperLink>
         <br/>
-        <asp:HyperLink ID="hpAdminpaneel" runat="server" NavigateUrl="/Adminpaneel" Visible="False">Adminpaneel</asp:HyperLink>
+        <asp:HyperLink ID="hpAdminpaneel" runat="server" NavigateUrl="/Adminpaneel.aspx" Visible="False">Adminpaneel</asp:HyperLink>
         <br/>
         <asp:Button ID="btnUitloggen" runat="server" Text="Uitloggen" OnClick="btnUitloggen_Click" Visible="False" />
       </div>
@@ -86,8 +80,11 @@
 
     <!--column div-->
     <div id = "column">
-        <asp:HyperLink ID="hpAdvertentiePlaatsen" runat="server">Advertentie Plaatsen</asp:HyperLink>
-        <table class="auto-style1">
+        <asp:HyperLink ID="hpAdvertentiePlaatsen" runat="server" ForeColor="#000066" NavigateUrl="AdvertentieAanmaken.aspx"><h3>Advertentie Plaatsen!</h3></asp:HyperLink>
+        
+        <h3>Zoeken!</h3>
+
+        <table class="lines">
             <tr>
                 <td class="auto-style4">Zoek op:</td>
                 <td class="auto-style5">
@@ -112,6 +109,52 @@
                 <td class="auto-style5">&nbsp;</td>
             </tr>
         </table>
+        
+        <h3>Aangeraden voor jou!</h3>
+        <br />
+        <table>
+            <tr>
+                <td> <asp:Image ID="FotoAdv1" runat="server" Visible="False" Height="80px" Width="80px" /> </td>
+                <td>
+                    <table class="lines">
+                        <tr><td>
+                            <asp:HyperLink ID="TitelAdv1" runat="server" Visible="False">HyperLink</asp:HyperLink>
+                            </td></tr>
+                        <tr><td><asp:Label ID="NaamAdv1" runat="server" Text="Naam" Visible="False"></asp:Label></td></tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+        <br />
+     <table>
+            <tr>
+                <td> <asp:Image ID="FotoAdv2" runat="server" Height="80px" Width="80px" /> </td>
+                <td>
+                    <table class ="lines">
+                        <tr><td>
+                            <asp:HyperLink ID="TitelAdv2" runat="server" Visible="False">HyperLink</asp:HyperLink>
+                            </td></tr>
+                        <tr><td><asp:Label ID="NaamAdv2" runat="server" Text="Label" Visible="False"></asp:Label></td></tr>
+                    </table>
+                </td>
+            </tr>
+        </table> 
+        <br />
+      <table>
+            <tr>
+                <td> <asp:Image ID="FotoAdv3" runat="server" Height="80px" Width="80px" /> </td>
+                <td>
+                    <table class ="lines">
+                        <tr><td>
+                            <asp:HyperLink ID="TitelAdv3" runat="server" Visible="False">HyperLink</asp:HyperLink>
+                            </td></tr>
+                        <tr><td><asp:Label ID="NaamAdv3" runat="server" Text="Label" Visible="False"></asp:Label></td></tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+        <br />
+
     </div>
     <!-- end of column div-->
     

@@ -26,7 +26,21 @@ namespace Marktplaats
         public string Website { get; set; }
         public string Type { get; set; }
         public string Eigenschap { get; set; }
+        public Aanbieder Aanbiederpersoon { get; set; }
 
+        public Advertentie(int advertentieNummer, string titel)
+        {
+            Advertentienummer = advertentieNummer;
+            Titel = titel;
+        }
+
+        public Advertentie(int advertentieNummer, string titel, Aanbieder aanbieder, string foto)
+        {
+            Advertentienummer = advertentieNummer;
+            Titel = titel;
+            Aanbiederpersoon = aanbieder;
+            Foto = foto;
+        }
         //Constructor, nog bepalen welke waarde in de constructor moeten worden meegegeven.
         public Advertentie(int advertentienummer, bool leveren, bool ophalen, string afmetingen, double gewicht, decimal zendprijs, string titel, int aantalBezocht, int aantalFavouriet, DateTime plaatsingsDatum, string conditie, string merk, string beschrijving, string foto, string website, string type, string eigenschap)
         {
