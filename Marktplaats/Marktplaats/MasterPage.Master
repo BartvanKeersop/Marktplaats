@@ -128,7 +128,7 @@
         <br />
      <table>
             <tr>
-                <td> <asp:Image ID="FotoAdv2" runat="server" Height="80px" Width="80px" /> </td>
+                <td> <asp:Image ID="FotoAdv2" runat="server" Height="80px" Width="80px" Visible="False" /> </td>
                 <td>
                     <table class ="lines">
                         <tr><td>
@@ -142,7 +142,7 @@
         <br />
       <table>
             <tr>
-                <td> <asp:Image ID="FotoAdv3" runat="server" Height="80px" Width="80px" /> </td>
+                <td> <asp:Image ID="FotoAdv3" runat="server" Height="80px" Width="80px" Visible="False" /> </td>
                 <td>
                     <table class ="lines">
                         <tr><td>

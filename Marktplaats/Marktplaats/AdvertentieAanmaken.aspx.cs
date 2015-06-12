@@ -9,13 +9,19 @@ using System.Web.UI.WebControls;
 
 namespace Marktplaats
 {
+    /// <summary>
+    /// This page contains all the code for AdvertentieAanmaken page.
+    /// Users can create an add this page by filling in the coresponding parameters.
+    /// </summary>
     public partial class AdvertentieAanmaken : System.Web.UI.Page
     {
-        //Fields
+        #region Fields
         private Gebruiker gebruiker;
+        #endregion
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            gebruiker = (Gebruiker) Session["gebruiker"];
             CheckIfLoggedIn();
 
             if (!IsPostBack)
@@ -27,11 +33,19 @@ namespace Marktplaats
                 if(ddlCategorie.SelectedIndex != 0)
                 {
                     int groepId = Convert.ToInt32(ddlCategorie.SelectedValue);
-                    ChangeSubcategorieDdl(groepId);
+
+                    if (ddlSubCategorie.SelectedIndex == 0)
+                    {
+                        ChangeSubcategorieDdl(groepId);
+                    }
                 }
             }
         }
 
+        #region Methods
+        /// <summary>
+        /// Checks if the user is logged in. If not, a warning message appears.
+        /// </summary>
         public void CheckIfLoggedIn()
         {
             if (Session["gebruiker"] == null)
@@ -42,6 +56,9 @@ namespace Marktplaats
             else lblWaarschuwing.Visible = false;
         }
 
+        /// <summary>
+        /// Binds the data to the dropdownlists
+        /// </summary>
         public void DataBind()
         {
             Administratie administratie = Administratie.Instance;
@@ -58,8 +75,16 @@ namespace Marktplaats
             ddlConditie.Items.Insert(1, "ZGAN");
             ddlConditie.Items.Insert(2, "Gebruikt");
             ddlConditie.SelectedIndex = 2;
+
+            ddlSubCategorie.Items.Insert(0, "Kies een categorie");
+            ddlSubCategorie.SelectedIndex = 0;
         }
 
+        /// <summary>
+        /// This method get's called when the CategorieDdl selected index gets changed.
+        /// This method changes the content of the SubCategorieDdl.
+        /// </summary>
+        /// <param name="groepid">The groepId from CategorieDdl</param>
         public void ChangeSubcategorieDdl(int groepid)
         {
             Administratie administratie = Administratie.Instance;
@@ -72,25 +97,12 @@ namespace Marktplaats
             ddlSubCategorie.SelectedIndex = 0;
         }
 
-        protected void btnPlaatsAdvertentie_Click(object sender, EventArgs e)
-        {
-            if (Session["gebruiker"] != null)
-            {
-                string imagepath = UploadAfbeelding();
 
-                int number;
-
-                if (Int32.TryParse(ddlSubCategorie.SelectedValue, out number) && tbTitel.Text != null &&
-                    ddlSubCategorie.SelectedValue != null && tbNaam != null && tbPostcode != null)
-                {
-                    Administratie administratie = Administratie.Instance;
-                    administratie.
-                }
-
-                lblMeldingen.Text = "Vul alle verplichte velden in";
-            }
-        }
-
+        /// <summary>
+        /// This method saves the image uploaded by the user onto the server and stores the link into the database.
+        /// The path gets returned, if the method fails a link to an errordisplay picture is returned.
+        /// </summary>
+        /// <returns>string imagepath</returns>
         public string UploadAfbeelding()
         {
             //Deze code heb ik van internet, zelf een klein beetje aangepast!
@@ -106,11 +118,10 @@ namespace Marktplaats
                         if (fuFoto.PostedFile.ContentLength < 1024000)
                         {
                             Administratie administratie = Administratie.Instance;
-                            DataSet output = administratie.GetData("SELECT MAX(ADVERTENTIEID) FROM ADVERTENTIE");
-                            string imagename = "Image" + output.Tables[0].Rows[0]["PERSOONID"];
+                            DataSet output = administratie.GetData("SELECT MAX(ADVERTENTIEID) AS MAX FROM ADVERTENTIE");
+                            string imagename = "Image" + output.Tables[0].Rows[0]["MAX"];
 
-                            string filename = Path.GetFileName(fuFoto.FileName);
-                            string savepath = "@Uploads/" + filename;
+                            string savepath = "Uploads/" + imagename;
 
                             fuFoto.SaveAs(Server.MapPath(savepath));
                             return savepath;
@@ -128,7 +139,53 @@ namespace Marktplaats
             }
             return "@Uploads/Error.png";
         }
+        #endregion
 
+        #region Events
+        /// <summary>
+        /// This event inserts the advert into the database.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void btnPlaatsAdvertentie_Click(object sender, EventArgs e)
+        {
+            if (Session["gebruiker"] != null)
+            {
+                string imagepath = UploadAfbeelding();
+
+                int number;
+
+                if (Int32.TryParse(ddlSubCategorie.SelectedValue, out number) && tbTitel.Text != null &&
+                    ddlSubCategorie.SelectedValue != null && tbNaam != null && tbPostcode != null)
+                {
+                    Database database = Database.Instance;
+
+                    int prijs = Convert.ToInt32(tbPrijs.Text);
+                    int categorieId = number;
+                    string titel = tbTitel.Text;
+                    string conditie = ddlConditie.SelectedValue;
+                    string merk = tbMerk.Text;
+                    string afmetingen = tbAfmeting.Text;
+                    int gewicht = Convert.ToInt32(tbGewicht.Text);
+                    string naam = tbNaam.Text;
+                    string postcode = tbPostcode.Text;
+                    string telnr = tbTelnr.Text;
+                    string website = tbWebsite.Text;
+                    int persoonId = gebruiker.GebruikerId;
+                    string beschrijving = tbBeschrijving.Text;
+
+                    database.InsertAdvertentie(prijs, categorieId, titel, conditie, merk, afmetingen, gewicht, imagepath, naam, postcode, telnr, website, persoonId, beschrijving);
+                }
+                lblMeldingen.Text = "Vul alle verplichte velden in";
+                lblMeldingen.Visible = true;
+            }
+        }
+
+        /// <summary>
+        /// This event fires when the index of the CategorieDdl is changed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void ddlCategorie_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (ddlCategorie.SelectedIndex != 0)
@@ -136,5 +193,7 @@ namespace Marktplaats
                 Session["ddlIndex"] = ddlCategorie.SelectedIndex;
             }
         }
+
+        #endregion
     }
 }

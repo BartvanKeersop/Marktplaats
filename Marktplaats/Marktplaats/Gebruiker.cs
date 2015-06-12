@@ -31,7 +31,6 @@ namespace Marktplaats
         public void GenereerAanbevolenAdvertenties(Gebruiker gebruiker)
         {
             Database database = Database.Instance;
-            bool advertentiebestaatal = true;
 
             gebruiker.AangeradenAdvertenties.Clear();
 
@@ -49,6 +48,8 @@ namespace Marktplaats
                 {
                     int groepId =
                         Convert.ToInt32(database.GetGroupIdWithAdvertentieId(gebruiker.BekekenAdvertenties[i].Advertentienummer)[0]["GROEPID"]);
+
+                   bool advertentiebestaatal = true;
 
                     while (advertentiebestaatal)
                     {

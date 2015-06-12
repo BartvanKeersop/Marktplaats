@@ -100,15 +100,20 @@ namespace Marktplaats
         {
             DateTime datum = DateTime.Now;
 
-            OracleCommand oc =
+            /*OracleCommand oc =
                 new OracleCommand(
                     "INSERT INTO Advertentie (Prijs, AdvertentieID, Foto, GroepID, PersoonID, Leveren, Ophalen, Afmeting, Gewicht, Zendprijs, Titel, Contactnaam, Contactpostcode, Contacttelefoon, Aantalbezocht, Aantalfavoriet, Plaatsingsdatum, Conditie, Merk, Beschrijving, Website, Vasteprijs, Biedprijs)" +
                     "VALUES (:prijs, NULL, :foto, :categorieId, :persoonId, 1, 1, :gewicht, :afmetingen, 0, :titel, :naam, :postcode, :telnr, 0, 0, :datum, :conditie, :merk, :beschrijving, :website, 0, 1");
+            */
+            OracleCommand oc =
+                new OracleCommand("INSERT INTO Groep (GroepID, ParentgroepID, Groepnaam) VALUES (20, NULL,'Muziekinsdeten')");
+                    
 
+            /*
             oc.Parameters.Add("prijs", prijs);
             oc.Parameters.Add("foto", foto);
             oc.Parameters.Add("categorieId", categorieId);
-            oc.Parameters.Add("persoonId", persoonId;
+            oc.Parameters.Add("persoonId", persoonId);
             oc.Parameters.Add("gewicht", gewicht);
             oc.Parameters.Add("afmetingen", afmetingen);
             oc.Parameters.Add("titel", titel);
@@ -120,8 +125,29 @@ namespace Marktplaats
             oc.Parameters.Add(":merk", merk);
             oc.Parameters.Add("beschrijving", beschrijving);
             oc.Parameters.Add("website", website);
+             */
 
            Execute(oc);
+        }
+
+        public void DeleteAdvertentie(int advertentieId)
+        {
+            OracleCommand oc =
+                    new OracleCommand("DELETE FROM advertentie WHERE advertentieID = :advertentieId");
+
+            oc.Parameters.Add("advertentieId", advertentieId);
+
+            ExecuteQuery(oc);
+        }
+
+        public List<Dictionary<string, object>> GetGebruikerIdWithAdvId(int advId)
+        {
+            OracleCommand oc =
+                new OracleCommand("SELECT PERSOONID FROM ADVERTENTIE WHERE ADVERTENTIEID = :advId");
+
+            oc.Parameters.Add("advId", advId);
+
+            return ExecuteQuery(oc);
         }
 
         public List<Dictionary<string, object>> GetAanbevolenAdvDataRandom(int groepId)
@@ -182,7 +208,7 @@ namespace Marktplaats
             return null;
         }
 
-        public bool Execute(OracleCommand cmd)
+        public void Execute(OracleCommand cmd)
         {
             try
             {

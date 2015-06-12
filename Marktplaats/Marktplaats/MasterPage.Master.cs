@@ -15,6 +15,7 @@ namespace Marktplaats
         protected void Page_Load(object sender, EventArgs e)
         {
             //Updates navigation.
+
             GetCategories();
 
             CheckIfLoggedIn();
@@ -54,12 +55,14 @@ namespace Marktplaats
                 tbEmail.Visible = false;
                 tbWachtwoord.Visible = false;
                 lblWelkom.Visible = true;
+                lblWelkom.Text = "Welkom, ";
                 hpNaam.Visible = true;
 
                 btnUitloggen.Visible = true;
                 btnInloggen.Visible = false;
                 hpNaam.Text = gebruiker.Naam;
                 hpNaam.NavigateUrl = "Instellingen/" + gebruiker.GebruikerId;
+
                 LoadAanbevolenAdvertenties();
 
                 //Shows the control to the adminpanel when user is an admin.
@@ -86,7 +89,7 @@ namespace Marktplaats
 
         public void LoadAanbevolenAdvertenties()
         {
-            gebruiker.GenereerAanbevolenAdvertenties(gebruiker);
+                gebruiker.GenereerAanbevolenAdvertenties(gebruiker);
 
             int caseSwitch = gebruiker.AangeradenAdvertenties.Count;
             switch (caseSwitch)

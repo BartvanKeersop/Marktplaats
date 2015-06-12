@@ -1,5 +1,8 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.Master" AutoEventWireup="true" CodeBehind="Advertentie.aspx.cs" Inherits="Marktplaats.Advertentie1" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    <asp:Button ID="btnVerwijderen" runat="server" ForeColor="#FF3300" Text="Advertentie Verwijderen" OnClick="btnVerwijderen_Click" />
+    <br/>
+    <br/>
     <asp:Repeater ID="RepeaterAdvertentie" runat="server">
         <ItemTemplate>
             <table>
@@ -94,7 +97,7 @@
     <asp:TextBox ID="tbBieden" runat="server" Width="70px" onkeypress="return isNumberKey(event)"></asp:TextBox>
             </td>
             <td>
-                <asp:Label ID="lblMessageBod" runat="server" Text="Label"></asp:Label>
+                <asp:Label ID="lblMessageBod" runat="server" Text="Label" Visible="False"></asp:Label>
             </td>
         </tr>
         <tr>
