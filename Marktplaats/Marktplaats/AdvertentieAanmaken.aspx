@@ -49,6 +49,8 @@
             <td style="width: 165px">Prijs:*</td>
             <td>
                 <asp:TextBox ID="tbPrijs" runat="server"></asp:TextBox>
+                <asp:DropDownList ID="ddlPrijs" runat="server">
+                </asp:DropDownList>
             </td>
         </tr>
         <tr>

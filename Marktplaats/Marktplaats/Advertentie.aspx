@@ -82,10 +82,6 @@
                                     <asp:Label runat="server" Text='<%# Eval("BEDRAG") %>'>
                                     </asp:Label> Euro
                                 </td>
-                                <td>
-                                    <asp:Label runat="server" Text='<%# Eval("DATUM") %>'>
-                                    </asp:Label>
-                                </td>
                             </tr>
         </ItemTemplate>
     </asp:Repeater>

@@ -85,6 +85,15 @@ namespace Marktplaats {
         protected global::System.Web.UI.WebControls.TextBox tbPrijs;
         
         /// <summary>
+        /// ddlPrijs control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlPrijs;
+        
+        /// <summary>
         /// tbBeschrijving control.
         /// </summary>
         /// <remarks>

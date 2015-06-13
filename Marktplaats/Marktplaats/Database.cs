@@ -160,9 +160,8 @@ namespace Marktplaats
         /// <summary>
         /// Inserts a placed bod into the database.
         /// </summary>
-        public void InsertBod(int advertentieId, int persoonId, int bedrag, DateTime datum)
+        public void InsertBod(int advertentieId, int persoonId, int bedrag)
         {
-            string datums = "04/01/2010 00:00:00', 'dd/mm/yyyy hh24:mi:ss";
             OracleCommand oc =
                 new OracleCommand(
                     "INSERT INTO BOD (BODID, ADVERTENTIEID, EMAIL, BEDRAG) VALUES (NULL, :advertentieId, :persoonId");
@@ -170,7 +169,6 @@ namespace Marktplaats
             oc.Parameters.Add(new OracleParameter("advertentieId", OracleDbType.Varchar2, advertentieId, ParameterDirection.Input));
             oc.Parameters.Add(new OracleParameter("persoonId", OracleDbType.Varchar2, persoonId, ParameterDirection.Input));
             oc.Parameters.Add(new OracleParameter("bedrag", OracleDbType.Int32, bedrag, ParameterDirection.Input));
-            oc.Parameters.Add(new OracleParameter("datums", OracleDbType.Date, datums, ParameterDirection.Input));
 
             Execute(oc);
         }
@@ -198,6 +196,36 @@ namespace Marktplaats
         {
             OracleCommand oc =
                 new OracleCommand("SELECT PERSOONID FROM ADVERTENTIE WHERE ADVERTENTIEID = :advId");
+
+            oc.Parameters.Add("advId", advId);
+
+            return ExecuteQuery(oc);
+        }
+
+        public List<Dictionary<string, object>> GetBoden(int advId)
+        {
+            OracleCommand oc =
+                new OracleCommand("SELECT p.Naam AS NAAM, p.Email AS EMAIL, b.Bedrag AS BEDRAG, b.Datum AS DATUM" +
+                        " FROM PERSOON p" +
+                        " JOIN Bod b ON p.PERSOONID = b.PERSOONID" +
+                        " WHERE b.AdvertentieId =  :advId" +
+                        " ORDER BY b.Bedrag DESC");
+
+            oc.Parameters.Add("advId", advId);
+
+            return ExecuteQuery(oc);
+        }
+
+        /// <summary>
+        /// Gets all the advert info.
+        /// </summary>
+        /// <param name="advId">the id of the advert</param>
+        /// <returns></returns>
+        public List<Dictionary<string, object>> GetAdvertentieInfo(int advId)
+        {
+            OracleCommand oc =
+            new OracleCommand(
+                "SELECT PersoonID, Prijs, Leveren, Ophalen, Titel, Conditie, Merk, Beschrijving, Foto, Vasteprijs, Biedprijs FROM Advertentie WHERE ADVERTENTIEID = :advId");
 
             oc.Parameters.Add("advId", advId);
 

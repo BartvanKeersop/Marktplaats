@@ -76,6 +76,10 @@ namespace Marktplaats
             ddlConditie.Items.Insert(2, "Gebruikt");
             ddlConditie.SelectedIndex = 2;
 
+            ddlPrijs.Items.Insert(0, "Bieden vanaf");
+            ddlPrijs.Items.Insert(1, "Vaste Prijs");
+            ddlPrijs.SelectedIndex = 0;
+
             ddlSubCategorie.Items.Insert(0, "Kies een categorie");
             ddlSubCategorie.SelectedIndex = 0;
         }
@@ -156,7 +160,7 @@ namespace Marktplaats
                 int number;
 
                 if (Int32.TryParse(ddlSubCategorie.SelectedValue, out number) && tbTitel.Text != null &&
-                    ddlSubCategorie.SelectedValue != null && tbNaam != null && tbPostcode != null)
+                    ddlSubCategorie.SelectedValue != null)
                 {
                     Database database = Database.Instance;
 
@@ -165,12 +169,7 @@ namespace Marktplaats
                     string titel = tbTitel.Text;
                     string conditie = ddlConditie.SelectedValue;
                     string merk = tbMerk.Text;
-                    string afmetingen = tbAfmeting.Text;
-                    int gewicht = Convert.ToInt32(tbGewicht.Text);
-                    string naam = tbNaam.Text;
-                    string postcode = tbPostcode.Text;
-                    string telnr = tbTelnr.Text;
-                    string website = tbWebsite.Text;
+                    string naam = gebruiker.Naam;
                     int persoonId = gebruiker.GebruikerId;
                     string beschrijving = tbBeschrijving.Text;
 

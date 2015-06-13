@@ -83,57 +83,25 @@ namespace Marktplaats
         {
             try
             {
-                //Creates datasets
-                DataSet output = new DataSet();
-                DataSet output2 = new DataSet();
-                DataSet output3 = new DataSet();
-
                 //Gets information from databse
-                Administratie administratie = new Administratie();
-                output = administratie.GetData("SELECT ADVERTENTIEID, PRIJS, PERSOONID, AFMETING, GEWICHT, ZENDPRIJS, TITEL, CONTACTNAAM, CONTACTPOSTCODE, CONTACTTELEFOON, AANTALBEZOCHT, AANTALFAVORIET, PLAATSINGSDATUM, CONDITIE, MERK, BESCHRIJVING, FOTO, WEBSITE" +
-                                               " FROM ADVERTENTIE" +
-                                               " WHERE ADVERTENTIEID = " + id);
-
+                Database database = Database.Instance;
+                List<Dictionary<string, object>> output = database.GetAdvertentieInfo(advertentieId);
+             
                 //If the advert doesn't exist, the user gets redirected to the index page
                 if (output == null)
                 {
                     Response.Redirect("Index.aspx.aspx", true);
                 }
 
-                int advertentieIdAdv = Convert.ToInt32(output.Tables[0].Rows[0]["ADVERTENTIEID"]);
-                string titelAdv = Convert.ToString(output.Tables[0].Rows[0]["TITEL"]);
+                int advertentieIdAdv = Convert.ToInt32(output[0]["ADVERTENTIEID"]);
+                string titelAdv = Convert.ToString(output[0]["TITEL"]);
 
-                minimaalBod = Convert.ToInt32(output.Tables[0].Rows[0]["PRIJS"]);
+                minimaalBod = Convert.ToInt32(output[0]["PRIJS"]);
 
                 //Checks what kind of advert it is.
-                output2 = administratie.GetData("SELECT LEVEREN, OPHALEN, BIEDPRIJS"+
-                                                " FROM ADVERTENTIE" +
-                                                " WHERE ADVERTENTIEID = " + id);
-
-                
-                int ophalen = Convert.ToInt32(output2.Tables[0].Rows[0]["OPHALEN"]);
-                int leveren = Convert.ToInt32(output2.Tables[0].Rows[0]["LEVEREN"]);
-                int biedPrijs = Convert.ToInt32(output2.Tables[0].Rows[0]["BIEDPRIJS"]);
-
-                //Gets the bids for the advert, ordered from high to low.
-                output3 =
-                    administratie.GetData(
-                        "SELECT p.Naam AS NAAM, p.Email AS EMAIL, b.Bedrag AS BEDRAG, b.Datum AS DATUM" +
-                        " FROM PERSOON p" +
-                        " JOIN Bod b ON p.PERSOONID = b.PERSOONID" +
-                        " WHERE b.AdvertentieId =" + id +
-                        " ORDER BY b.Bedrag DESC");
-                
-                //Binds the data to the repeater
-                RepeaterAdvertentie.DataSource = output;
-                RepeaterAdvertentie.DataBind();
-
-                //Binds the data to the repeater
-                RepeaterBod.DataSource = output3;
-                RepeaterBod.DataBind();
-
-                //Sets hoogstebod
-                hoogsteBod = Convert.ToInt32(output3.Tables[0].Rows[0]["BEDRAG"]);
+                int ophalen = Convert.ToInt32(output[0]["OPHALEN"]);
+                int leveren = Convert.ToInt32(output[0]["LEVEREN"]);
+                int biedPrijs = Convert.ToInt32(output[0]["BIEDPRIJS"]);
 
                 //Sets the advert type.
                 if (ophalen == 1 && leveren == 1)
@@ -153,7 +121,22 @@ namespace Marktplaats
 
                 if (biedPrijs == 1)
                 {
+                    //If bied advertentie, get bied data
                     lblPrijs.Text = "Bieden";
+
+                    //Gets the bids for the advert, ordered from high to low.
+                    List<Dictionary<string, object>> output2 = database.GetBoden(advertentieId);
+
+                    //Binds the data to the repeater
+                    RepeaterAdvertentie.DataSource = output;
+                    RepeaterAdvertentie.DataBind();
+
+                    //Binds the data to the repeater
+                    RepeaterBod.DataSource = output2;
+                    RepeaterBod.DataBind();
+
+                    //Sets hoogstebod
+                    hoogsteBod = Convert.ToInt32(output2[0]["BEDRAG"]);
                 }
                 else
                 {
@@ -201,10 +184,7 @@ namespace Marktplaats
                 else
                 {
                     Database database = Database.Instance;
-                    DateTime date = DateTime.Now;
-                    string datum = Convert.ToString(date, CultureInfo.InvariantCulture);
-
-                    database.InsertBod(advertentieId, gebruiker.GebruikerId, bod, date);
+                    database.InsertBod(advertentieId, gebruiker.GebruikerId, bod);
                 }
             }
         }
