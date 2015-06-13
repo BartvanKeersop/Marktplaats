@@ -173,7 +173,7 @@ namespace Marktplaats
                     int persoonId = gebruiker.GebruikerId;
                     string beschrijving = tbBeschrijving.Text;
 
-                    database.InsertAdvertentie(prijs, categorieId, titel, conditie, merk, afmetingen, gewicht, imagepath, naam, postcode, telnr, website, persoonId, beschrijving);
+                    //database.InsertAdvertentie(prijs, categorieId, titel, conditie, merk, afmetingen, gewicht, imagepath, naam, postcode, telnr, website, persoonId, beschrijving);
                 }
                 lblMeldingen.Text = "Vul alle verplichte velden in";
                 lblMeldingen.Visible = true;

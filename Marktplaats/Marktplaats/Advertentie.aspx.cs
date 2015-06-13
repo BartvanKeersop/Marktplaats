@@ -85,72 +85,83 @@ namespace Marktplaats
             {
                 //Gets information from databse
                 Database database = Database.Instance;
-                List<Dictionary<string, object>> output = database.GetAdvertentieInfo(advertentieId);
-             
+                List<Dictionary<string, object>> output = new List<Dictionary<string, object>>();
+                output = database.GetAdvertentieInfo(advertentieId);
+
                 //If the advert doesn't exist, the user gets redirected to the index page
                 if (output == null)
                 {
                     Response.Redirect("Index.aspx.aspx", true);
                 }
-
-                int advertentieIdAdv = Convert.ToInt32(output[0]["ADVERTENTIEID"]);
-                string titelAdv = Convert.ToString(output[0]["TITEL"]);
-
-                minimaalBod = Convert.ToInt32(output[0]["PRIJS"]);
-
-                //Checks what kind of advert it is.
-                int ophalen = Convert.ToInt32(output[0]["OPHALEN"]);
-                int leveren = Convert.ToInt32(output[0]["LEVEREN"]);
-                int biedPrijs = Convert.ToInt32(output[0]["BIEDPRIJS"]);
-
-                //Sets the advert type.
-                if (ophalen == 1 && leveren == 1)
-                {
-                    lblType.Text = "Beide";
-
-                }
-                else if (ophalen == 1 && leveren == 0)
-                {
-                    lblType.Text = "Ophalen";
-
-                }
-                else if (ophalen == 0 && leveren == 1)
-                {
-                    lblType.Text = "Leveren";
-                }
-
-                if (biedPrijs == 1)
-                {
-                    //If bied advertentie, get bied data
-                    lblPrijs.Text = "Bieden";
-
-                    //Gets the bids for the advert, ordered from high to low.
-                    List<Dictionary<string, object>> output2 = database.GetBoden(advertentieId);
-
-                    //Binds the data to the repeater
-                    RepeaterAdvertentie.DataSource = output;
-                    RepeaterAdvertentie.DataBind();
-
-                    //Binds the data to the repeater
-                    RepeaterBod.DataSource = output2;
-                    RepeaterBod.DataBind();
-
-                    //Sets hoogstebod
-                    hoogsteBod = Convert.ToInt32(output2[0]["BEDRAG"]);
-                }
                 else
                 {
-                    lblPrijs.Text = "Vaste Prijs";
+
+                    string titelAdv = Convert.ToString(output[0]["TITEL"]);
+                    int prijs = Convert.ToInt32(output[0]["PRIJS"]);
+                    string conditie = Convert.ToString(output[0]["CONDITIE"]);
+                    string merk = Convert.ToString(output[0]["MERK"]);
+                    string beschrijving = Convert.ToString(output[0]["BESCHRIJVING"]);
+                    string foto = Convert.ToString(output[0]["FOTO"]);
+
+                    lblTitel.Text = titelAdv;
+                    lblPrijss.Text = Convert.ToString(prijs);
+                    lblConditie.Text = conditie;
+                    lblMerk.Text = merk;
+                    lblBeschrijving.Text = beschrijving;
+                    Fotobox.ImageUrl = foto;
+
+                    minimaalBod = Convert.ToInt32(output[0]["PRIJS"]);
+
+                    //Checks what kind of advert it is.
+                    int ophalen = Convert.ToInt32(output[0]["OPHALEN"]);
+                    int leveren = Convert.ToInt32(output[0]["LEVEREN"]);
+                    int biedPrijs = Convert.ToInt32(output[0]["BIEDPRIJS"]);
+
+                    //Sets the advert type.
+                    if (ophalen == 1 && leveren == 1)
+                    {
+                        lblType.Text = "Beide";
+
+                    }
+                    else if (ophalen == 1 && leveren == 0)
+                    {
+                        lblType.Text = "Ophalen";
+
+                    }
+                    else if (ophalen == 0 && leveren == 1)
+                    {
+                        lblType.Text = "Leveren";
+                    }
+
+                    if (biedPrijs == 1)
+                    {
+                        //If bied advertentie, get bied data
+                        lblPrijs.Text = "Bieden";
+
+                        //Gets the bids for the advert, ordered from high to low.
+                        DataSet output2 = database.GetBoden(advertentieId);
+
+                        //Binds the data to the repeater
+                        RepeaterBod.DataSource = output2;
+                        RepeaterBod.DataBind();
+
+                        //Sets hoogstebod
+                        hoogsteBod = Convert.ToInt32(output2.Tables[0].Rows[0]["BEDRAG"]);
+                    }
+                    else
+                    {
+                        lblPrijs.Text = "Vaste Prijs";
+                    }
+
+                    //Creates an instance of advert and adds it to the users recently watched adverts.
+                    Advertentie advertentie = new Advertentie(advertentieId, titelAdv);
+                    gebruiker.BekekenAdvertenties.Add(advertentie);
+
                 }
-
-                //Creates an instance of advert and adds it to the users recently watched adverts.
-                Advertentie advertentie = new Advertentie(advertentieIdAdv, titelAdv);
-                gebruiker.BekekenAdvertenties.Add(advertentie);
-
             }
             catch (Exception ex)
             {
-                
+                System.Diagnostics.Debug.WriteLine(ex.Message);
             }
         }
         #endregion

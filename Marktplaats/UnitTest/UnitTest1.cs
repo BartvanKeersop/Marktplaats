@@ -1,16 +1,26 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections.Generic;
+using System.IO;
 
 namespace UnitTest
 {
     [TestClass]
     public class UnitTest1
     {
-        [TestMethod]
-        public void TestMethod1()
+        [TestClass]
+        public class TestGebruiker
         {
-            Som s = new Som();
-            Assers.AreEqual((s.Optellen(1, 2)), 3);
-        }
+            private Gebruiker gebruiker = new Gebruiker(1, "Jaap", 1);
+            private Advertentie advertentie = new Advertentie(1, "titel");
+            gebruiker.AangeradenAdvertenties.Add(advertentie);
+
+         [TestMethod]
+         public void CheckBestaatAlCheck()
+         {
+            Assert.AreEqual((gebruiker.BestaatAlCheck(gebruiker, advertentie)), true);
+         }
+
+       }
     }
 }

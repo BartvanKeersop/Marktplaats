@@ -22,13 +22,58 @@ namespace Marktplaats {
         protected global::System.Web.UI.WebControls.Button btnVerwijderen;
         
         /// <summary>
-        /// RepeaterAdvertentie control.
+        /// Fotobox control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater RepeaterAdvertentie;
+        protected global::System.Web.UI.WebControls.Image Fotobox;
+        
+        /// <summary>
+        /// lblTitel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblTitel;
+        
+        /// <summary>
+        /// lblPrijss control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblPrijss;
+        
+        /// <summary>
+        /// lblConditie control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblConditie;
+        
+        /// <summary>
+        /// lblMerk control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblMerk;
+        
+        /// <summary>
+        /// lblBeschrijving control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblBeschrijving;
         
         /// <summary>
         /// lblType control.

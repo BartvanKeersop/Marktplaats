@@ -164,7 +164,7 @@ namespace Marktplaats
         {
             OracleCommand oc =
                 new OracleCommand(
-                    "INSERT INTO BOD (BODID, ADVERTENTIEID, EMAIL, BEDRAG) VALUES (NULL, :advertentieId, :persoonId");
+                    "INSERT INTO BOD (BODID, ADVERTENTIEID, EMAIL, BEDRAG) VALUES (NULL, :advertentieId, :persoonId, :bedrag");
 
             oc.Parameters.Add(new OracleParameter("advertentieId", OracleDbType.Varchar2, advertentieId, ParameterDirection.Input));
             oc.Parameters.Add(new OracleParameter("persoonId", OracleDbType.Varchar2, persoonId, ParameterDirection.Input));
@@ -202,18 +202,15 @@ namespace Marktplaats
             return ExecuteQuery(oc);
         }
 
-        public List<Dictionary<string, object>> GetBoden(int advId)
+        public DataSet GetBoden(int advId)
         {
-            OracleCommand oc =
-                new OracleCommand("SELECT p.Naam AS NAAM, p.Email AS EMAIL, b.Bedrag AS BEDRAG, b.Datum AS DATUM" +
+            string query = "SELECT p.Naam AS NAAM, p.Email AS EMAIL, b.Bedrag AS BEDRAG" +
                         " FROM PERSOON p" +
                         " JOIN Bod b ON p.PERSOONID = b.PERSOONID" +
-                        " WHERE b.AdvertentieId =  :advId" +
-                        " ORDER BY b.Bedrag DESC");
+                        " WHERE b.AdvertentieId = " + advId +
+                        " ORDER BY b.Bedrag DESC";
 
-            oc.Parameters.Add("advId", advId);
-
-            return ExecuteQuery(oc);
+            return GetData(query);
         }
 
         /// <summary>

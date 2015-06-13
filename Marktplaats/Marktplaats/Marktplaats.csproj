@@ -69,6 +69,7 @@
     <Content Include="Instellingen.aspx" />
     <Content Include="Javascript.js" />
     <Content Include="MasterPage.Master" />
+    <Content Include="ClassDiagram1.cd" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
