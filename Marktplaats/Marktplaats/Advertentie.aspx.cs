@@ -200,13 +200,11 @@ namespace Marktplaats
 
                 else
                 {
-                    Administratie administratie = new Administratie();
+                    Database database = Database.Instance;
                     DateTime date = DateTime.Now;
                     string datum = Convert.ToString(date, CultureInfo.InvariantCulture);
 
-                    administratie.InsertData("INSERT INTO BOD (NULL, ADVERTENTIEID, EMAIL, BEDRAG, DATUM) VALUES (" +
-                                             "NULL" + "," + advertentieId + ", " + gebruiker.Email + ", " + bod + ", " +
-                                             "'" + datum + "'" + ")");
+                    database.InsertBod(advertentieId, gebruiker.GebruikerId, bod, date);
                 }
             }
         }

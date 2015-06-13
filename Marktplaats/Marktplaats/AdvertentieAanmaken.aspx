@@ -40,18 +40,6 @@
             </td>
         </tr>
         <tr>
-            <td style="width: 165px">Afmetingen product:</td>
-            <td>
-                <asp:TextBox ID="tbAfmeting" runat="server"></asp:TextBox>
-            </td>
-        </tr>
-        <tr>
-            <td style="width: 165px">Gewicht product:</td>
-            <td>
-                <asp:TextBox ID="tbGewicht" runat="server"></asp:TextBox>
-            </td>
-        </tr>
-        <tr>
             <td style="width: 165px">Foto:</td>
             <td>
                 <asp:FileUpload ID="fuFoto" runat="server" />
@@ -69,43 +57,7 @@
                 <asp:TextBox ID="tbBeschrijving" runat="server" Height="105px" TextMode="MultiLine" Width="186px"></asp:TextBox>
             </td>
         </tr>
-        <tr>
-            <td style="width: 165px">&nbsp;</td>
-            <td>&nbsp;</td>
-        </tr>
-        <tr>
-            <td style="width: 165px">Uw gegevens:</td>
-            <td>------------------------------------</td>
-        </tr>
-        <tr>
-            <td style="width: 165px">Contact naam:*</td>
-            <td>
-                <asp:TextBox ID="tbNaam" runat="server"></asp:TextBox>
-            </td>
-        </tr>
-        <tr>
-            <td style="width: 165px">Contact postcode:*</td>
-            <td>
-                <asp:TextBox ID="tbPostcode" runat="server"></asp:TextBox>
-            </td>
-        </tr>
-        <tr>
-            <td style="width: 165px">Contact telefoonnummer:</td>
-            <td>
-                <asp:TextBox ID="tbTelnr" runat="server"></asp:TextBox>
-            </td>
-        </tr>
-        <tr>
-            <td style="width: 165px">Website:</td>
-            <td>
-                <asp:TextBox ID="tbWebsite" runat="server"></asp:TextBox>
-            </td>
-        </tr>
-        <tr>
-            <td style="width: 165px">&nbsp;</td>
-            <td>&nbsp;</td>
-        </tr>
-    </table>
+        </table>
     
     <asp:Label ID="lblMeldingen" runat="server" Text="Meldingen" CssClass="highlight" Visible="False"></asp:Label>
     

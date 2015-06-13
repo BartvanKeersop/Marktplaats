@@ -8,19 +8,29 @@ using System.Web.UI.WebControls;
 
 namespace Marktplaats
 {
+    /// <summary>
+    /// This class contains the code to display the adverts relatedto the selected Categorie.
+    /// </summary>
     public partial class Advertenties : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
             Rout();
         }
+
+       /// <summary>
+       /// This methods routs the user and takes the Category out of the Url.
+       /// </summary>
         public void Rout()
         {
             string id = (string)Page.RouteData.Values["id"];
-
             GetAdvertenties(id);
         }
 
+        /// <summary>
+        /// Gets the adverts for the categorieID passed by the rout method.
+        /// </summary>
+        /// <param name="id"></param>
         public void GetAdvertenties(string id)
         {
             try
@@ -37,7 +47,7 @@ namespace Marktplaats
             }
             catch (Exception ex)
             {
-
+                System.Diagnostics.Debug.WriteLine(ex.Message);
             }
         }
     }

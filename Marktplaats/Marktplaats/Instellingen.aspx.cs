@@ -8,14 +8,20 @@ using System.Web.UI.WebControls;
 
 namespace Marktplaats
 {   
+    /// <summary>
+    /// This page contains all the information about the instellingen page.
+    /// A user can change is settings here.
+    /// </summary>
     public partial class Instellingen : System.Web.UI.Page
     {
         private Gebruiker gebruiker;
         protected void Page_Load(object sender, EventArgs e)
         {
             CheckGebruiker();
-            Rout();
+            GetInstellingen(gebruiker.GebruikerId);
         }
+
+        #region Methods
         /// <summary>
         /// This method checks if the email in the url matches with the "gebruiker" in the session.
         /// If not, the session is set to null and the user is redirected to the index page.
@@ -37,11 +43,10 @@ namespace Marktplaats
             }
         }
 
-        public void Rout()
-        {
-            GetInstellingen(gebruiker.GebruikerId);
-        }
-
+        /// <summary>
+        /// This method gets the current settings for the account that is currently logged in
+        /// </summary>
+        /// <param name="id"></param>
         public void GetInstellingen(int id)
         {
             try
@@ -62,9 +67,9 @@ namespace Marktplaats
             }
             catch (Exception ex)
             {
-
+                System.Diagnostics.Debug.WriteLine(ex.Message);
             }
         }
-
+        #endregion
     }
 }

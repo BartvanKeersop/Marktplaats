@@ -67,24 +67,6 @@ namespace Marktplaats {
         protected global::System.Web.UI.WebControls.TextBox tbMerk;
         
         /// <summary>
-        /// tbAfmeting control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbAfmeting;
-        
-        /// <summary>
-        /// tbGewicht control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbGewicht;
-        
-        /// <summary>
         /// fuFoto control.
         /// </summary>
         /// <remarks>
@@ -110,42 +92,6 @@ namespace Marktplaats {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox tbBeschrijving;
-        
-        /// <summary>
-        /// tbNaam control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbNaam;
-        
-        /// <summary>
-        /// tbPostcode control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbPostcode;
-        
-        /// <summary>
-        /// tbTelnr control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbTelnr;
-        
-        /// <summary>
-        /// tbWebsite control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbWebsite;
         
         /// <summary>
         /// lblMeldingen control.

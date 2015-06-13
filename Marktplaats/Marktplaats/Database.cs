@@ -11,6 +11,10 @@ using Oracle.DataAccess;
 
 namespace Marktplaats
 {
+    /// <summary>
+    /// This class contains all the methods used to get or set information from the database.
+    /// This class was constructed with a little help from Cas Eliens (how to use parameters).
+    /// </summary>
     public class Database
     {
         #region Fields
@@ -23,25 +27,27 @@ namespace Marktplaats
         public static Database Instance { get { return instance.Value; } }
         #endregion
 
+        #region Constructor
         private Database()
         {
-            
         }
+        #endregion
 
-
+        #region Methods
+        /// <summary>
+        /// Opens the connection to the oracle database.
+        /// </summary>
         private void OpenConnection()
         {
-
-            //Dataconnection
             connection.ConnectionString = "User Id=MARKTPLAATS;Password=MARKTPLAATS;Data Source=localhost/XE";
 
             try
             {
                 connection.Open();
             }
-            catch (Exception ex)
+            catch (OracleException ex)
             {
-                throw ex;
+                System.Diagnostics.Debug.WriteLine(ex.Message + ex.ErrorCode);
             }
         }
 
@@ -50,6 +56,11 @@ namespace Marktplaats
             connection.Close();
         }
 
+        /// <summary>
+        /// This method gets a dataset to bind to a repeater
+        /// </summary>
+        /// <param name="query"></param>
+        /// <returns></returns>
         public DataSet GetData(string query)
         {
             try
@@ -87,6 +98,11 @@ namespace Marktplaats
             }
         }
 
+        /// <summary>
+        /// gets the subcategories of the selected category
+        /// </summary>
+        /// <param name="parentCategorieId">the categorieId of selected category</param>
+        /// <returns>subcategorieId and Name</returns>
         public List<Dictionary<string, object>> GetSubCategories(int parentCategorieId)
         {
             OracleCommand oc = new OracleCommand("SELECT GROEPNAAM, GROEPID FROM CATEGORIE WHERE PARENTGROEPID = :parentCategorieId");
@@ -96,20 +112,32 @@ namespace Marktplaats
             return ExecuteQuery(oc);
         }
 
+        /// <summary>
+        /// Inserts an advert
+        /// </summary>
+        /// <param name="prijs"></param>
+        /// <param name="categorieId"></param>
+        /// <param name="titel"></param>
+        /// <param name="conditie"></param>
+        /// <param name="merk"></param>
+        /// <param name="afmetingen"></param>
+        /// <param name="gewicht"></param>
+        /// <param name="foto"></param>
+        /// <param name="naam"></param>
+        /// <param name="postcode"></param>
+        /// <param name="telnr"></param>
+        /// <param name="website"></param>
+        /// <param name="persoonId"></param>
+        /// <param name="beschrijving"></param>
         public void InsertAdvertentie(int prijs, int categorieId, string titel, string conditie, string merk, string afmetingen, int gewicht, string foto, string naam, string postcode, string telnr, string website, int persoonId, string beschrijving)
         {
             DateTime datum = DateTime.Now;
 
-            /*OracleCommand oc =
+            OracleCommand oc =
                 new OracleCommand(
                     "INSERT INTO Advertentie (Prijs, AdvertentieID, Foto, GroepID, PersoonID, Leveren, Ophalen, Afmeting, Gewicht, Zendprijs, Titel, Contactnaam, Contactpostcode, Contacttelefoon, Aantalbezocht, Aantalfavoriet, Plaatsingsdatum, Conditie, Merk, Beschrijving, Website, Vasteprijs, Biedprijs)" +
                     "VALUES (:prijs, NULL, :foto, :categorieId, :persoonId, 1, 1, :gewicht, :afmetingen, 0, :titel, :naam, :postcode, :telnr, 0, 0, :datum, :conditie, :merk, :beschrijving, :website, 0, 1");
-            */
-            OracleCommand oc =
-                new OracleCommand("INSERT INTO Groep (GroepID, ParentgroepID, Groepnaam) VALUES (20, NULL,'Muziekinsdeten')");
-                    
-
-            /*
+ 
             oc.Parameters.Add("prijs", prijs);
             oc.Parameters.Add("foto", foto);
             oc.Parameters.Add("categorieId", categorieId);
@@ -125,11 +153,32 @@ namespace Marktplaats
             oc.Parameters.Add(":merk", merk);
             oc.Parameters.Add("beschrijving", beschrijving);
             oc.Parameters.Add("website", website);
-             */
 
            Execute(oc);
         }
 
+        /// <summary>
+        /// Inserts a placed bod into the database.
+        /// </summary>
+        public void InsertBod(int advertentieId, int persoonId, int bedrag, DateTime datum)
+        {
+            string datums = "04/01/2010 00:00:00', 'dd/mm/yyyy hh24:mi:ss";
+            OracleCommand oc =
+                new OracleCommand(
+                    "INSERT INTO BOD (BODID, ADVERTENTIEID, EMAIL, BEDRAG) VALUES (NULL, :advertentieId, :persoonId");
+
+            oc.Parameters.Add(new OracleParameter("advertentieId", OracleDbType.Varchar2, advertentieId, ParameterDirection.Input));
+            oc.Parameters.Add(new OracleParameter("persoonId", OracleDbType.Varchar2, persoonId, ParameterDirection.Input));
+            oc.Parameters.Add(new OracleParameter("bedrag", OracleDbType.Int32, bedrag, ParameterDirection.Input));
+            oc.Parameters.Add(new OracleParameter("datums", OracleDbType.Date, datums, ParameterDirection.Input));
+
+            Execute(oc);
+        }
+
+        /// <summary>
+        /// Deletes selected advert
+        /// </summary>
+        /// <param name="advertentieId">selected advertId</param>
         public void DeleteAdvertentie(int advertentieId)
         {
             OracleCommand oc =
@@ -140,6 +189,11 @@ namespace Marktplaats
             ExecuteQuery(oc);
         }
 
+        /// <summary>
+        /// Gets the creator of selected advert
+        /// </summary>
+        /// <param name="advId">id of the selected advert</param>
+        /// <returns>persoonId of the creator</returns>
         public List<Dictionary<string, object>> GetGebruikerIdWithAdvId(int advId)
         {
             OracleCommand oc =
@@ -150,6 +204,11 @@ namespace Marktplaats
             return ExecuteQuery(oc);
         }
 
+        /// <summary>
+        /// This method returns a random recommended advert.
+        /// </summary>
+        /// <param name="groepId">GroupId of viewed advert</param>
+        /// <returns>advert information</returns>
         public List<Dictionary<string, object>> GetAanbevolenAdvDataRandom(int groepId)
         {
             OracleCommand oc =
@@ -165,6 +224,11 @@ namespace Marktplaats
             return ExecuteQuery(oc);
         }
 
+        /// <summary>
+        /// Gets a group from selected advert
+        /// </summary>
+        /// <param name="advId">the id of the selected advert</param>
+        /// <returns>the categorie of selected advert</returns>
         public List<Dictionary<string, object>> GetGroupIdWithAdvertentieId(int advId)
         {
             OracleCommand oc = new OracleCommand("SELECT GROEPID FROM ADVERTENTIE WHERE ADVERTENTIEID = :advId");
@@ -174,6 +238,11 @@ namespace Marktplaats
             return ExecuteQuery(oc);
         }
 
+        /// <summary>
+        /// Executes a Query that returns a dictonairy list
+        /// </summary>
+        /// <param name="oc"></param>
+        /// <returns></returns>
         public List<Dictionary<string, object>> ExecuteQuery(OracleCommand oc)
         {
             List<Dictionary<string, object>> result = new List<Dictionary<string, object>>();
@@ -208,6 +277,10 @@ namespace Marktplaats
             return null;
         }
 
+        /// <summary>
+        /// Executes a query without a return value
+        /// </summary>
+        /// <param name="cmd"></param>
         public void Execute(OracleCommand cmd)
         {
             try
@@ -225,5 +298,7 @@ namespace Marktplaats
                 CloseConnection();
             }
         }
+
+        #endregion
     }
 }

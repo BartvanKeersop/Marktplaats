@@ -114,13 +114,11 @@
     <Compile Include="Advertenties.aspx.designer.cs">
       <DependentUpon>Advertenties.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Bestelling.cs" />
     <Compile Include="Database.cs" />
     <Compile Include="Gebruiker.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Groep.cs" />
     <Compile Include="Hoofdgroep.cs" />
     <Compile Include="Index.aspx.cs">
       <DependentUpon>Index.aspx</DependentUpon>
@@ -145,7 +143,6 @@
     </Compile>
     <Compile Include="Persoon.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Subgroep.cs" />
     <Compile Include="Categorie.aspx.cs">
       <DependentUpon>Categorie.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

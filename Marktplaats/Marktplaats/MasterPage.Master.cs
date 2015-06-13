@@ -8,21 +8,28 @@ using System.Web.UI.WebControls;
 
 namespace Marktplaats
 {
+
+    /// <summary>
+    /// This page contains the code for the master page.
+    /// The master page is the template used for the entire site, it contains the banner, navigation, sidebar and footer.
+    /// </summary>
     public partial class MasterPage : System.Web.UI.MasterPage
     {
+        #region Fields
         private Gebruiker gebruiker;
+        #endregion
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            //Updates navigation.
-
             GetCategories();
-
             CheckIfLoggedIn();
-
             BindCategoriesToList();
         }
 
+        #region Methods
+        /// <summary>
+        /// This method binds all the categories to the search dropdownlist.
+        /// </summary>
         public void BindCategoriesToList()
         {
             DataSet output = new DataSet();
@@ -87,6 +94,9 @@ namespace Marktplaats
             }
         }
 
+        /// <summary>
+        /// This method loads one or more recommended adverts for the user
+        /// </summary>
         public void LoadAanbevolenAdvertenties()
         {
                 gebruiker.GenereerAanbevolenAdvertenties(gebruiker);
@@ -203,8 +213,10 @@ namespace Marktplaats
             {
             }
         }
+        #endregion
 
-        /// <summary>
+         #region Events
+         /// <summary>
         /// This method checks if the username and password exist and match within the oracle database.
         /// When it does, it gets the email, username and rights from the database and creates a user.
         /// The user is then stored within the session.
@@ -263,5 +275,7 @@ namespace Marktplaats
             Session["gebruiker"] = null;
             CheckIfLoggedIn();
         }
+        #endregion
+
     }
 }
